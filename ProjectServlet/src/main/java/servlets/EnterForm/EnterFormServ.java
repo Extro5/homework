@@ -38,9 +38,9 @@ public class EnterFormServ extends HttpServlet {
 
 
             User user = new User(username, email, password, sex, subscription);
-
+            UserRep urep = new UserRep();
             try {
-                UserRep.add(user);
+                urep.add(user);
                 req.setAttribute("head", "User has been created");
                 getServletContext().getRequestDispatcher("/Form.jsp").forward(req, resp);
 

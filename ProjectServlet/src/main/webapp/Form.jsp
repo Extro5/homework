@@ -3,51 +3,79 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title> Welcome </title>
+    <title> Form Registration </title>
+    <meta http-equip="Content-Type" content="text/html; charset= UTF-8">
+    <style type="text/css">
+        body{
+            background-color:gray;
+        }
+        #Form{
+            margin: 15%;
+            text-align: center;
+
+
+        }
+        .errors{
+            color: #7c0002;
+
+        }
+    </style>
 </head>
 
 
 <body>
 <fmt:requestEncoding value="windows-1251"></fmt:requestEncoding>
-<c:if test="${not empty message}">
-    <h3>${message}</h3>
-</c:if>
+
+
 <form method="POST" action="/serv">
-  <p>
-    Введите своё ФИО: &nbsp; <input type="text" name="username" size="40">
 
-  </p>
-    <div id="errors">
-        <c:if test="${not empty UsernameError}">
-            ${UsernameError}
-        </c:if>
-    </div>
-  <p>
-    Введите свой email:   <input type="email" name="email"  size="40"> пароль:  <input type="password" name="password" size="20">
-  </p>
+    <div id="Form">
 
-    <div id="errors1">
-        <c:if test="${not empty EmailError}">
-            ${EmailError}
-        </c:if>
+        <h2> Регистрация </h2>
+
+        <div class="block1">
+            <p> Введите своё Имя: &nbsp; <input type="text" name="username" size="40" placeholder="Username"></p>
+        </div>
+
+        <div class="errors">
+            <c:if test="${not empty UsernameError}">
+                ${UsernameError}
+            </c:if>
+        </div>
+
+        <p> Введите свой email: <input type="email" name="email" size="40" placeholder="Email"></p>
+
+        <div class="errors">
+            <c:if test="${not empty EmailError}">
+                ${EmailError}
+            </c:if>
+        </div>
+
+        <p> Введите свой пароль: <input type="password" name="password" size="20" placeholder="Password"></p>
+
+
+        <div class="errors">
+            <c:if test="${not empty PasswordError}">
+                ${PasswordError}
+            </c:if>
+        </div>
+
+        <p>
+            Укажите свой пол: &nbsp;
+            Мужской <input type="radio" name="sex" value="male">
+            Женский <input type="radio" name="sex" value="female">
+        </p>
+
+        <p>
+
+            Соглашение на подписку: &nbsp;
+            <input type="checkbox" name="lan" value="agree" checked>
+        </p>
+
+        <p>
+            <input type="submit" value="Подтвердить" name="B1">
+        </p>
     </div>
-    <div id="errors3">
-        <c:if test="${not empty PasswordError}">
-            ${PasswordError}
-        </c:if>
-    </div>
-  <p>
-    Укажите свой пол: &nbsp;
-    Мужской <input type="radio" name="sex" value="male">
-    Женский <input type="radio" name="sex" value="female">
-  </p>
-  <p>
-    Соглашение на подписку: &nbsp;
-    <input type="checkbox" name="lan" value="agree" checked>
-  </p>
-  <p>
-    <input type="submit" value="Клик" name="B1">
-  </p>
 </form>
 </body>
 </html>
