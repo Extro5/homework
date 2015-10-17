@@ -22,7 +22,9 @@
     </style>
 </head>
 
-
+<c:if test="${not empty RepeatError}">
+    ${RepeatError}
+</c:if>
 <body>
 <fmt:requestEncoding value="windows-1251"></fmt:requestEncoding>
 
@@ -73,7 +75,7 @@
         </p>
 
         <p>
-            <input type="submit" value="Подтвердить" name="B1">
+            <input type="submit" value="Зарегистрироваться" name="B1">
         </p>
     </div>
 </form>

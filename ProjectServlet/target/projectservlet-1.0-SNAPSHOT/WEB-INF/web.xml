@@ -10,12 +10,38 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
   <display-name>Archetype Created Web Application</display-name>
 
     <servlet>
-        <servlet-name>MainServlet</servlet-name>
+        <servlet-name>Registration</servlet-name>
         <servlet-class>servlets.EnterForm.EnterFormServ</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>servlets.Authorization.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Profile</servlet-name>
+        <servlet-class>servlets.Authorization.Profile</servlet-class>
+    </servlet>
+
+
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>servlets.Authorization.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>MainServlet</servlet-name>
+        <servlet-name>Profile</servlet-name>
+        <url-pattern>/profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Registration</servlet-name>
         <url-pattern>/serv</url-pattern>
     </servlet-mapping>
 </web-app>

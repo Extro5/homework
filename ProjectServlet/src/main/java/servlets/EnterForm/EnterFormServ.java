@@ -2,10 +2,7 @@ package servlets.EnterForm;
 
 
 import entities.EnterForm.User;
-import exceptions.DbException;
-import exceptions.EmailException;
-import exceptions.PasswordException;
-import exceptions.UsernameException;
+import exceptions.*;
 import repositories.EnterForm.UserRep;
 
 import javax.servlet.ServletException;
@@ -18,7 +15,9 @@ public class EnterFormServ extends HttpServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        getServletContext().getRequestDispatcher("/Form.jsp").forward(req, resp);
+        getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
+
+
     }
 
 
@@ -33,29 +32,33 @@ public class EnterFormServ extends HttpServlet {
             String username = req.getParameter("username");
             String email = req.getParameter("email");
             String password = req.getParameter("password");
-            boolean sex = req.getParameter("sex").equals("male") ? true : false;
-            boolean subscription = req.getParameter("lan") == null ? false : true;
+            boolean sex = req.getParameter("sex").equals("male");
+            boolean subscription = req.getParameter("lan") != null;
 
 
             User user = new User(username, email, password, sex, subscription);
+
             UserRep urep = new UserRep();
             try {
                 urep.add(user);
                 req.setAttribute("head", "User has been created");
-                getServletContext().getRequestDispatcher("/Form.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
 
             } catch (UsernameException a) {
                 req.setAttribute("UsernameError", "Invalid username");
-                getServletContext().getRequestDispatcher("/Form.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
             } catch (EmailException b) {
                 req.setAttribute("EmailError", "Invalid EmailError");
-                getServletContext().getRequestDispatcher("/Form.jsp").forward(req, resp);
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
             } catch (PasswordException c) {
                 req.setAttribute("PasswordError", "invalid Password");
-                getServletContext().getRequestDispatcher("/Form").forward(req, resp);
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
             } catch (DbException e) {
                 req.setAttribute("DatabaseError", "Database Error");
-                getServletContext().getRequestDispatcher("/Form").forward(req, resp);
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
+            } catch (RepetitionException d) {
+                req.setAttribute("RepeatError", "Invalid User");
+                getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
             }
 
 
