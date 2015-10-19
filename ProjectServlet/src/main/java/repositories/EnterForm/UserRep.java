@@ -56,7 +56,7 @@ public class UserRep {
             if (searchEmail(user.getEmail()) != null) {
                 throw new RepetitionException();
             } else {
-                addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree"});
+                addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree", user.getComment()});
             }
         } catch (DbException e) {
             throw e;
@@ -98,13 +98,13 @@ public class UserRep {
     }
 
 
-    private User searchEmail(String Email) throws DbException {
+    public static User searchEmail(String Email) throws DbException {
         try {
             CSVReader reader = new CSVReader(new FileReader(FORM_PATH), ',', '"', 1);
             String[] gap;
             while ((gap = reader.readNext()) != null) {
                 if (gap[1].equals(Email)) return new User(gap[0], gap[1], gap[2],
-                        gap[3].equals("male"), gap[4].equals("agree"));
+                        gap[3].equals("male"), gap[4].equals("agree"), gap[5]);
             }
             return null;
         } catch (IOException e) {
@@ -120,7 +120,7 @@ public class UserRep {
             String[] gap;
             while ((gap = reader.readNext()) != null) {
                 if (gap[1].equals(name)) return new User(gap[0], gap[1], gap[2],
-                        gap[3].equals("male"), gap[4].equals("agree"));
+                        gap[3].equals("male"), gap[4].equals("agree"), gap[5]);
             }
             return null;
         } catch (IOException e) {

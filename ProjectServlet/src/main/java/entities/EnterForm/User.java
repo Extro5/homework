@@ -7,16 +7,18 @@ public class User {
     private String password;
     private boolean sex;
     private boolean radio;
+    private String comment;
 
 
 
-    public User(String Username, String email, String password, boolean sex, boolean radio){
+    public User(String Username, String email, String password, boolean sex, boolean radio, String comment){
 
         this.email = email;
         this.password = password;
         this.sex = sex;
         this.radio = radio;
         this.Username = Username;
+        this.comment = comment;
     }
 
 
@@ -40,4 +42,7 @@ public class User {
         return radio;
     }
 
+    public String getComment(){
+        return comment;
+    }
 }

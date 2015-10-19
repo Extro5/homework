@@ -34,9 +34,10 @@ public class EnterFormServ extends HttpServlet {
             String password = req.getParameter("password");
             boolean sex = req.getParameter("sex").equals("male");
             boolean subscription = req.getParameter("lan") != null;
+            String comment = req.getParameter("comment");
 
 
-            User user = new User(username, email, password, sex, subscription);
+            User user = new User(username, email, password, sex, subscription, comment);
 
             UserRep urep = new UserRep();
             try {
