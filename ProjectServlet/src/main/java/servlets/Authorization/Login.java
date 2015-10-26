@@ -1,14 +1,13 @@
 package servlets.Authorization;
 
 import entities.EnterForm.User;
-import exceptions.DbException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static repositories.EnterForm.UserRep.*;
+import static repositories.EnterForm.UserRep.searchLogin;
 
 
 public class Login extends HttpServlet {
@@ -17,23 +16,18 @@ public class Login extends HttpServlet {
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        try {
-            User user = searchName(login);
-            if (user != null) {
-                if (password.equals(user.getPassword())) {
-                    Cookie cookie = new Cookie("login", login);
-                    HttpSession session = req.getSession();
-                    resp.addCookie(cookie);
-                    session.setAttribute("cookie", login);
-                    resp.sendRedirect("/profile ");
-                }
-            } else {
-                PrintWriter out = resp.getWriter();
-                out.print("Invalid invalid");
+        User user = searchLogin(login);
+        if (user != null) {
+            if (password.equals(user.getPassword())) {
+                Cookie cookie = new Cookie("login", login);
+                HttpSession session = req.getSession();
+                resp.addCookie(cookie);
+                session.setAttribute("cookie", login);
+                resp.sendRedirect("/profile ");
             }
-
-        } catch (DbException e) {
-            e.printStackTrace();
+        } else {
+            PrintWriter out = resp.getWriter();
+            out.print("Invalid invalid");
         }
 
 

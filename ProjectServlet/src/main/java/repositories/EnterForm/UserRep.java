@@ -1,6 +1,8 @@
 package repositories.EnterForm;
 
 
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import entities.EnterForm.User;
@@ -9,8 +11,11 @@ import exceptions.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static BD.Singleton.ConnectionMysql.getDBConnection;
 
 public class UserRep {
 
@@ -29,22 +34,20 @@ public class UserRep {
     private static final String Password_P;
 
     static {
-        Password_P = "^[\\w-]{2,14}$";
+        Password_P = "^[a-zA-Z0-9]{2,14}$";
     }
 
     private static final String FORM_PATH = "D://IDEA all//ProjectServlet//csv//users.csv";
 
-    public void add(User user) throws DbException, UsernameException, EmailException, PasswordException, RepetitionException {
+    public void add(User user) throws Exception {
 
         if (!checkUsername(user.getUsername()) || !checkEmail(user.getEmail()) || checkPassword(user.getPassword())) {
 
             if (!checkUsername(user.getUsername())) {
                 throw new UsernameException();
-            } else
-            if (!checkEmail(user.getEmail())) {
+            } else if (!checkEmail(user.getEmail())) {
                 throw new EmailException();
-            }else
-            if (!checkPassword(user.getPassword())) {
+            } else if (!checkPassword(user.getPassword())) {
                 throw new PasswordException();
             }
 
@@ -56,7 +59,17 @@ public class UserRep {
             if (searchEmail(user.getEmail()) != null) {
                 throw new RepetitionException();
             } else {
-                addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree", user.getComment()});
+
+
+                Connection connection = (Connection) getDBConnection();
+                Statement statement = (Statement) connection.createStatement();
+
+                String sex = user.getSex() ? "male" : "female";
+                String subscribe = user.getRadio() ? "agree" : "not agree";
+                statement.executeUpdate("INSERT INTO users(name, email, password, sex, lan,comment) VALUES  ('" + user.getUsername() + "','" + user.getEmail() + "','" + user.getPassword() + "','" + sex + "','" + subscribe + "','" + user.getComment() + "');");
+
+
+                //  addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree", user.getComment()});
             }
         } catch (DbException e) {
             throw e;
@@ -79,7 +92,7 @@ public class UserRep {
     }
 
 
-    public static boolean  checkUsername(String name) {
+    public static boolean checkUsername(String name) {
         Pattern pattern = Pattern.compile(USER_P);
         Matcher matcher = pattern.matcher(name);
         return matcher.matches();
@@ -91,7 +104,7 @@ public class UserRep {
         return matcher.matches();
     }
 
-    public static boolean  checkPassword(String password) {
+    public static boolean checkPassword(String password) {
         Pattern pattern = Pattern.compile(Password_P);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
@@ -114,6 +127,41 @@ public class UserRep {
 
     }
 
+
+    public static User searchLogin(String login) {
+        try {
+
+            Connection connection = (Connection) getDBConnection();
+            Statement statement = (Statement) connection.createStatement();
+            ResultSet result = statement.executeQuery("SELECT email FROM users");
+
+            while (result.next()) {
+                if (login.equals(result)) {
+                    ResultSet resultlogin = statement.executeQuery("SELECT name,email,password,sex,lan,comment FROM users WHERE email=result");
+                  /*  return new User(statement.executeQuery("SELECT name FROM site WHERE email=result"),
+                            statement.executeQuery("SELECT email FROM site WHERE email=result"),
+                            statement.executeQuery("SELECT password FROM site WHERE email=result"),
+                            statement.executeQuery("SELECT sex FROM site WHERE email=result"),
+                            statement.executeQuery("SELECT lan FROM site WHERE email=result"),
+                            statement.executeQuery("SELECT comment FROM site WHERE email=result"));*/
+                    // ResultSet name = resultlogin;
+
+
+                    return new User(resultlogin.getString(1), resultlogin.getString(2), resultlogin.getString(3), resultlogin.getBoolean(4), resultlogin.getBoolean(6), resultlogin.getString(7));
+
+
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
     public static User searchName(String name) throws DbException {
         try {
             CSVReader reader = new CSVReader(new FileReader(FORM_PATH), ',', '"', 1);
@@ -129,5 +177,25 @@ public class UserRep {
 
 
     }
+/*
+
+    public java.sql.Connection getDBConnection() throws Exception {
+        Class.forName("com.mysql.jdbc.Driver");
+        Properties properties = new Properties();
+        properties.setProperty("user", "root");
+        properties.setProperty("password", "1234");
+        */
+/*
+          настройки указывающие о необходимости конвертировать данные из Unicode
+	  в UTF-8, который используется в нашей таблице для хранения данных
+        *//*
+
+        properties.setProperty("useUnicode", "true");
+        properties.setProperty("characterEncoding", "UTF-8");
+        return (DriverManager.getConnection("jdbc:mysql://localhost:3306/site",
+                properties));
+    }
+*/
+
 
 }

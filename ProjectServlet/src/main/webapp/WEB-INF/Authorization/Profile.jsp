@@ -6,7 +6,6 @@
 <%--@elvariable id="Username" type="servlets"--%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -28,6 +27,7 @@
 
         .container {
             margin-top: 100pt;
+
         }
 
         .table-user-information > tbody > tr {
