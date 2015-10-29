@@ -4,12 +4,10 @@ package repositories.EnterForm;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import entities.EnterForm.User;
 import exceptions.*;
 
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.regex.Matcher;
@@ -18,6 +16,12 @@ import java.util.regex.Pattern;
 import static BD.Singleton.ConnectionMysql.getDBConnection;
 
 public class UserRep {
+
+/*
+    // экранирование:
+    // String abc = "He said: \"Hi!\"";
+*/
+
 
     private static final String USER_P;
 
@@ -78,6 +82,7 @@ public class UserRep {
 
     }
 
+/*
 
     private void addCsv(String lol, String[] userform) throws DbException {
 
@@ -90,6 +95,7 @@ public class UserRep {
             throw new DbException();
         }
     }
+*/
 
 
     public static boolean checkUsername(String name) {
@@ -111,6 +117,33 @@ public class UserRep {
     }
 
 
+
+
+    public static User searchLogin(String login) {
+        try {
+
+            Connection connection = (Connection) getDBConnection();
+            Statement statement = (Statement) connection.createStatement();
+
+
+            if (statement.executeQuery("SELECT email FROM users WHERE email=\"" + login + "\"") != null) {
+                ResultSet resultlogin = statement.executeQuery("SELECT name,email,password,sex,lan,comment FROM users WHERE email=\"" + login + "\"");
+                while (resultlogin.next()) {
+                    return new User(resultlogin.getString("name"), resultlogin.getString("email"), resultlogin.getString("password"), resultlogin.getBoolean("sex"), resultlogin.getBoolean("lan"), resultlogin.getString("comment"));
+                }
+            } else {
+                System.out.print("пользователя не существует");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
     public static User searchEmail(String Email) throws DbException {
         try {
             CSVReader reader = new CSVReader(new FileReader(FORM_PATH), ',', '"', 1);
@@ -127,40 +160,6 @@ public class UserRep {
 
     }
 
-
-    public static User searchLogin(String login) {
-        try {
-
-            Connection connection = (Connection) getDBConnection();
-            Statement statement = (Statement) connection.createStatement();
-            ResultSet result = statement.executeQuery("SELECT email FROM users");
-
-            while (result.next()) {
-                if (login.equals(result)) {
-                    ResultSet resultlogin = statement.executeQuery("SELECT name,email,password,sex,lan,comment FROM users WHERE email=result");
-                  /*  return new User(statement.executeQuery("SELECT name FROM site WHERE email=result"),
-                            statement.executeQuery("SELECT email FROM site WHERE email=result"),
-                            statement.executeQuery("SELECT password FROM site WHERE email=result"),
-                            statement.executeQuery("SELECT sex FROM site WHERE email=result"),
-                            statement.executeQuery("SELECT lan FROM site WHERE email=result"),
-                            statement.executeQuery("SELECT comment FROM site WHERE email=result"));*/
-                    // ResultSet name = resultlogin;
-
-
-                    return new User(resultlogin.getString(1), resultlogin.getString(2), resultlogin.getString(3), resultlogin.getBoolean(4), resultlogin.getBoolean(6), resultlogin.getString(7));
-
-
-                }
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-        return null;
-    }
 
     public static User searchName(String name) throws DbException {
         try {

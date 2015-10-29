@@ -16,18 +16,18 @@ public class Login extends HttpServlet {
 
         String login = req.getParameter("login");
         String password = req.getParameter("password");
+
         User user = searchLogin(login);
+
         if (user != null) {
             if (password.equals(user.getPassword())) {
-                Cookie cookie = new Cookie("login", login);
                 HttpSession session = req.getSession();
-                resp.addCookie(cookie);
-                session.setAttribute("cookie", login);
+                session.setAttribute("login", login);
                 resp.sendRedirect("/profile ");
             }
         } else {
             PrintWriter out = resp.getWriter();
-            out.print("Invalid invalid");
+            out.print("Введенные вами данные не верны");
         }
 
 
@@ -35,13 +35,11 @@ public class Login extends HttpServlet {
 
 
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Cookie[] cookies = req.getCookies();
         HttpSession session = req.getSession();
-        for (Cookie cookie : cookies) {
-            if (cookie.getValue().equals(session.getAttribute("cookie"))) {
-                resp.sendRedirect("/profile");
-                return;
-            }
+
+        if(session.getAttribute("login")!= null){
+            resp.sendRedirect("/profile");
+            return;
         }
 
         getServletContext().getRequestDispatcher("/WEB-INF/Authorization/Login.jsp").forward(req, resp);

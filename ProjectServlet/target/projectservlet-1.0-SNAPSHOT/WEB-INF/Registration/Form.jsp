@@ -35,21 +35,40 @@
         }
 
         #lol3 {
-        margin-top: 10pt;
+            margin-top: 10pt;
         }
 
         .form-group {
             text-align: center;
         }
-    </style>
-    <script language=JavaScript type="text/javascript" src="count.js">
 
-    </script>
+        #btn1 {
+            text-align: center;
+
+        }
+
+        .txt1{
+            text-align: center;
+        }
+    </style>
+    <script language=JavaScript type="text/javascript" src="scripts/count.js"></script>
+    <script type="text/javascript" src="scripts/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="scripts/testajax.js"></script>
 </head>
 
 
 <body>
 <fmt:requestEncoding value="UTF-8"/>
+
+<div id="btn1">
+    <button type="submit" class="btn btn-success">Нажми :)</button>
+</div>
+
+
+<div class="txt1">
+
+    <label for="text" id="txt1">lol</label>
+</div>
 
 
 <form action="<c:url value="/login"/>" method="get">
@@ -85,6 +104,8 @@
     </c:if>
 
 </div>
+
+
 <form id="form" role="form" action="<c:url value="/serv"/>" method="post">
 
 
@@ -149,6 +170,7 @@
     <div id="lol3" class="col-md-offset-4 col-md-4">
         <button type="submit" class="btn btn-success">Зарегистрироваться</button>
     </div>
+
 
 </form>
 
