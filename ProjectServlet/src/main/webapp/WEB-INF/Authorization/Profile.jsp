@@ -57,6 +57,10 @@
     <button type="submit" class="btn btn-success">Выйти</button>
 </form>
 
+<form id="form1" role="form" action="<c:url value="/posts"/>" method="get">
+    <button type="submit" class="btn btn-success">Посты</button>
+</form>
+
 
 <div class="container">
     <div class="row">

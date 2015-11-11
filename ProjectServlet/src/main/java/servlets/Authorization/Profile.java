@@ -32,12 +32,12 @@ public class Profile extends HttpServlet {
             assert user != null;
 
 
-            req.setAttribute("Username", user.getName2());
-            req.setAttribute("Email", user.getEmail2());
-            req.setAttribute("Password", user.getPass2());
-            req.setAttribute("Sex", user.getSex2());
-            req.setAttribute("Subscribe", user.getLan2());
-            req.setAttribute("Comment", user.getComment2());
+            req.setAttribute("Username", user.getName3());
+            req.setAttribute("Email", user.getEmail3());
+            req.setAttribute("Password", user.getPass3());
+            req.setAttribute("Sex", user.getSex3());
+            req.setAttribute("Subscribe", user.getLan3());
+            req.setAttribute("Comment", user.getComment3());
 
             getServletContext().getRequestDispatcher("/WEB-INF/Authorization/Profile.jsp").forward(req, resp);
         }

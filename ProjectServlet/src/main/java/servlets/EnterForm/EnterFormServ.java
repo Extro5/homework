@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class EnterFormServ extends HttpServlet {
 
@@ -66,8 +65,6 @@ public class EnterFormServ extends HttpServlet {
             } catch (RepetitionException d) {
                 req.setAttribute("RepeatError", "Invalid User");
                 getServletContext().getRequestDispatcher("/WEB-INF/Registration/Form.jsp").forward(req, resp);
-            } catch (SQLException e) {
-                e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
             }

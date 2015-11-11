@@ -15,6 +15,10 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
     </context-param>
 
     <servlet>
+        <servlet-name>postServlet</servlet-name>
+        <servlet-class>servlets.Posts.PostServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Registration</servlet-name>
         <servlet-class>servlets.EnterForm.EnterFormServ</servlet-class>
     </servlet>
@@ -26,12 +30,24 @@ http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
         <servlet-name>Profile</servlet-name>
         <servlet-class>servlets.Authorization.Profile</servlet-class>
     </servlet>
-
-
+    <servlet>
+        <servlet-name>Home</servlet-name>
+        <servlet-class>servlets.Home.HomeServ</servlet-class>
+    </servlet>
     <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>servlets.Authorization.Logout</servlet-class>
     </servlet>
+
+
+    <servlet-mapping>
+        <servlet-name>Home</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>postServlet</servlet-name>
+        <url-pattern>/posts</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/logout</url-pattern>

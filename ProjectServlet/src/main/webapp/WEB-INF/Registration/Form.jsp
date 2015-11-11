@@ -54,6 +54,7 @@
     <script language=JavaScript type="text/javascript" src="scripts/count.js"></script>
     <script type="text/javascript" src="scripts/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="scripts/testajax.js"></script>
+  <%--  <script type="text/javascript" src="scripts/FormReg.js"></script> ---%>
 </head>
 
 
@@ -106,9 +107,8 @@
 </div>
 
 
+<%--<form id="form" role="form" action="<c:url value="/serv"/>" method="post">--%>
 <form id="form" role="form" action="<c:url value="/serv"/>" method="post">
-
-
     <div class="col-md-offset-4 col-md-4">
         <h2 id="lol1">Регистрация</h2>
     </div>
@@ -157,15 +157,12 @@
         <textarea class="form-control" name="comment" id="textarea" placeholder="Напишите что-нибудь о себе"
                   onclick="length_check(32, 'textarea', 'counter')"
                   onkeyup="length_check(32, 'textarea', 'counter')" rows="3" cols="40"></textarea>
-
         </div>
     </div>
-
 
     <div class="col-md-offset-4 col-md-4">
         Max symbols: <span id="counter">32 / 32</span>
     </div>
-
 
     <div id="lol3" class="col-md-offset-4 col-md-4">
         <button type="submit" class="btn btn-success">Зарегистрироваться</button>

@@ -3,15 +3,12 @@ package repositories.EnterForm;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-import com.opencsv.CSVReader;
 import entities.EnterForm.User;
 import exceptions.*;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.sql.ResultSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.sql.*;
 
 import static BD.Singleton.ConnectionMysql.getDBConnection;
 
@@ -41,7 +38,7 @@ public class UserRep {
         Password_P = "^[a-zA-Z0-9]{2,14}$";
     }
 
-    private static final String FORM_PATH = "D://IDEA all//ProjectServlet//csv//users.csv";
+    //private static final String FORM_PATH = "D://IDEA all//ProjectServlet//csv//users.csv";
 
     public void add(User user) throws Exception {
 
@@ -59,40 +56,36 @@ public class UserRep {
         }
 
 
-        try {
-            if (searchEmail(user.getEmail()) != null) {
-                throw new RepetitionException();
-            } else {
+       /* if (searchLogin(user.getEmail3()) == null) {
+            throw new RepetitionException();
+        } else {*/
 
 
-                Connection connection = (Connection) getDBConnection();
-                assert connection != null;
-                //Statement statement = (Statement) connection.createStatement();
+        Connection connection = (Connection) getDBConnection();
+        assert connection != null;
+        //Statement statement = (Statement) connection.createStatement();
 
-                String sex = user.getSex() ? "male" : "female";
-                String subscribe = user.getRadio() ? "agree" : "not agree";
-
-
-                PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement("INSERT INTO users(name, email, password, sex, lan,comment) VALUES (?,?,?,?,?,?)");
-                pstmt.setString(1, user.getUsername());
-                pstmt.setString(2, user.getEmail());
-                pstmt.setString(3, user.getPassword());
-                pstmt.setString(4, sex);
-                pstmt.setString(5, subscribe);
-                pstmt.setString(6, user.getComment());
-                pstmt.execute();
-                pstmt.close();
-                //statement.executeUpdate("INSERT INTO users(name, email, password, sex, lan,comment) VALUES  ('" + user.getUsername() + "','" + user.getEmail() + "','" + user.getPassword() + "','" + sex + "','" + subscribe + "','" + user.getComment() + "');");
-
-                //statement.close();
-                //  addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree", user.getComment()});
-            }
-        } catch (DbException e) {
-            throw e;
-        }
+        String sex = user.getSex() ? "male" : "female";
+        String subscribe = user.getRadio() ? "agree" : "not agree";
 
 
+        PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement("INSERT INTO users(name, email, password, sex, lan,comment) VALUES (?,?,?,?,?,?)");
+        pstmt.setString(1, user.getUsername());
+        pstmt.setString(2, user.getEmail());
+        pstmt.setString(3, user.getPassword());
+        pstmt.setString(4, sex);
+        pstmt.setString(5, subscribe);
+        pstmt.setString(6, user.getComment());
+        pstmt.execute();
+        pstmt.close();
+        //statement.executeUpdate("INSERT INTO users(name, email, password, sex, lan,comment) VALUES  ('" + user.getUsername() + "','" + user.getEmail() + "','" + user.getPassword() + "','" + sex + "','" + subscribe + "','" + user.getComment() + "');");
+
+        //statement.close();
+        //  addCsv("users", new String[]{user.getUsername(), user.getEmail(), user.getPassword(), user.getSex() ? "male" : "female", user.getRadio() ? "agree" : "not agree", user.getComment()});
     }
+
+
+
 
 /*
 
@@ -134,18 +127,18 @@ public class UserRep {
 
             Connection connection = (Connection) getDBConnection();
             assert connection != null;
-            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement("SELECT name,email,password,sex,lan,comment FROM users WHERE email = ?;");
+            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement("SELECT id_user,name,email,password,sex,lan,comment FROM users WHERE email = ?;");
             pstmt.setString(1, login);
             ResultSet set = pstmt.executeQuery();
             if (set.next()) {
-
-                String name = set.getString(1);
-                String email = set.getString(2);
-                String pass = set.getString(3);
-                String sex = set.getString(4);
-                String lan = set.getString(5);
-                String comment = set.getNString(6);
-                return new User(name, email, pass, sex, lan, comment);
+                int id_user = set.getInt(1);
+                String name = set.getString(2);
+                String email = set.getString(3);
+                String pass = set.getString(4);
+                String sex = set.getString(5);
+                String lan = set.getString(6);
+                String comment = set.getNString(7);
+                return new User(id_user, name, email, pass, sex, lan, comment);
 
             }
         } catch (Exception e) {
@@ -157,6 +150,34 @@ public class UserRep {
     }
 
 
+    public static User searchId(int id) {
+        try {
+
+            Connection connection = (Connection) getDBConnection();
+            assert connection != null;
+            PreparedStatement pstmt = (PreparedStatement) connection.prepareStatement("SELECT * FROM users WHERE id_user = ?;");
+            pstmt.setInt(1, id);
+            ResultSet set = pstmt.executeQuery();
+            if (set.next()) {
+                int id3 = set.getInt(1);
+                String name = set.getString(2);
+                String email = set.getString(3);
+                String pass = set.getString(4);
+                String sex = set.getString(5);
+                String lan = set.getString(6);
+                String comment = set.getNString(7);
+                return new User(id3, name, email, pass, sex, lan, comment);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return null;
+    }
+
+/*
     public static User searchEmail(String Email) throws DbException {
         try {
             CSVReader reader = new CSVReader(new FileReader(FORM_PATH), ',', '"', 1);
@@ -171,10 +192,10 @@ public class UserRep {
         }
 
 
-    }
+    }*/
 
 
-    public static User searchName(String name) throws DbException {
+   /* public static User searchName(String name) throws DbException {
         try {
             CSVReader reader = new CSVReader(new FileReader(FORM_PATH), ',', '"', 1);
             String[] gap;
@@ -188,7 +209,10 @@ public class UserRep {
         }
 
 
-    }
+    }*/
+
+
+
 /*
 
     public java.sql.Connection getDBConnection() throws Exception {

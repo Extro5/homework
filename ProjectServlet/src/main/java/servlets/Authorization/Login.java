@@ -20,7 +20,7 @@ public class Login extends HttpServlet {
         User user = searchLogin(login);
 
         if (user != null) {
-            if (password.equals(user.getPass2())) {
+            if (password.equals(user.getPass3())) {
                 HttpSession session = req.getSession();
                 session.setAttribute("login", login);
                 resp.sendRedirect("/profile ");
