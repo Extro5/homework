@@ -25,3 +25,12 @@ buildNumber.properties
 # Gradle:
 .idea/gradle.xml
 .idea/libraries
+
+#ignore .iml, .DS_Store, .idea file
+*.iml
+*.DS_Store
+*.idea
+*.class
+#ignore target dir
+target
+out
