@@ -16,10 +16,11 @@ public class ProductList {
         JTable table = new JTable(data, columns);
 
         panel.add(table);
-        table.setEnabled(false); // Запрещает редактирование таблицы
+        table.setEnabled(false);
         frame.add(panel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
 }

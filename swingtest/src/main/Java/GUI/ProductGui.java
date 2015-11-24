@@ -2,17 +2,14 @@ package main.Java.GUI;
 
 
 import main.Java.Entities.Product;
-import main.Java.Exceptions.DbException;
-import main.Java.Repository.ProductRep;
+import main.Java.Repository.RestRep;
+import main.Java.Utilities.EnumManufacturer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
 
-// утсановить nodejs, jsonserver(ставить через nodejs(менеджер пактеов)(node.js) npm install json-server))
 public class ProductGui extends JFrame {
     public static void main(String[] args) {
-
         JFrame frame = new JFrame("Product");
         JPanel panel = new JPanel(new GridLayout(16, 20));
 
@@ -23,7 +20,7 @@ public class ProductGui extends JFrame {
         JTextField tv2 = new JTextField("", 20);
         JTextField tv3 = new JTextField("", 20);
         JTextField tv4 = new JTextField("", 20);
-        JComboBox comboBox = new JComboBox();
+        JComboBox<String> comboBox = new JComboBox<>(EnumManufacturer.getManufacturers());
         JLabel lb1 = new JLabel("Name: ");
         JLabel lb2 = new JLabel("Price: ");
         JLabel lb3 = new JLabel("Weight: ");
@@ -56,18 +53,18 @@ public class ProductGui extends JFrame {
             String name = tv1.getText();
             String price = tv2.getText();
             String weight = tv3.getText();
-            String manufacturer = tv4.getText();
+            String manufacturer = (String) comboBox.getSelectedItem();
 
             Product product = new Product(name, Integer.parseInt(price), Integer.parseInt(weight), manufacturer);
             try {
-                ProductRep.add(product);
+                RestRep.add(product);
                 tv1.setText("");
                 tv2.setText("");
                 tv3.setText("");
                 tv4.setText("");
 
-                lb5.setText("The product was successfully added to the database.");
-            } catch (DbException | SQLException e1) {
+                lb5.setText("The product was successfully added to the json-server.");
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
 
@@ -96,4 +93,6 @@ public class ProductGui extends JFrame {
         frame.setVisible(true);
 
     }
+
+
 }

@@ -29,6 +29,10 @@ public class Product {
         this.setManufacturer1(manufacturer1);
     }
 
+    public Product() {
+
+    }
+
 
     public String getName() {
         return name;
